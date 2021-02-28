@@ -4,64 +4,80 @@ const jwt = require("jsonwebtoken");
 
 
 //SignUp Controller
-async function signup(req,res,next) {
+async function signup(req, res, next) {
 
   const salt = await bycrypt.genSalt(10);
   hashpassword = await bycrypt.hash(req.body.password, salt)
 
-  const emailExist = await User.findOne({email: req.body.email})
-  if(emailExist){
-     res.status(400).json({"error":'Email already Exist'}) 
+  const emailExist = await User.findOne({ email: req.body.email })
+  if (emailExist) {
+    res.status(400).json({ "error": 'Email already Exist' })
   }
 
-  const user =  new User({
+  const user = new User({
     name: req.body.name,
     email: req.body.email,
-    password: hashpassword
+    password: hashpassword,
   })
-  try{
+  try {
     const userSignup = await user.save()
     const payload = {
       user: {
-        id: userSignup.id
-      }
+        id: userSignup.id,
+      },
     };
-    jwt.sign(payload,"anystring",{expiresIn: 10000},function(err, token)
-    {
-      if(err){
+    jwt.sign(payload, "anystring", { expiresIn: 10000 }, function (err, token) {
+      if (err) {
         res.send(err)
       }
       res.status(200).json({
-        token,
-        userSignup
+        // token,
+        status:"OK",
+        message:userSignup.name +" created! "
+        // user,
       })
     })
-  } 
-  catch(err){
-    res.status(400).json({'error':err})
+  } catch (err) {
+    res.status(400).json({ 'error': err })
   }
 }
 
 //Login Controller
-async function login(req,res,next){
-  const emailExist = await User.findOne({email: req.body.email})
-  if(!emailExist){
-    res.status(400).json({error:"Email not Found"})
+async function login(req, res, next) {
+  const emailExist = await User.findOne({ email: req.body.email })
+  if (!emailExist) {
+    res.status(400).json({ error: "Email not Found" })
   }
   const checkpassword = await bycrypt.compare(req.body.password, emailExist.password)
-  if(!checkpassword){
-    res.status(400).json({error:"Password mismatch"})
+  if (!checkpassword) {
+    res.status(400).json({ error: "Password mismatch" })
   }
-  const token = jwt.sign({_id: emailExist.id},'anystring')
-  res.header('auth-token',token).json({'Token':token})
+  const token = jwt.sign({ _id: emailExist.id }, 'anystring')
+  var cookie = req.cookies.token;
+  if (cookie === undefined) {
+    // no: set a new cookie
+    res.cookie('token', token, { maxAge: 900000, httpOnly: true });
+    console.log('cookie created successfully');
+  } else {
+    // yes, cookie was already present
+    console.log('cookie exists', cookie);
+  }
+  const user = new User({
+    name: emailExist.name,
+    email: emailExist.email,
+  })
+
+  res.header('auth-token', token).json({ user, status: "OK" })
+  next();
+
 }
 
-async function getCurrentUser(req,res){
+async function getCurrentUser(req, res) {
   try {
     const user = await User.findById(req.user._id);
     res.json(user);
   } catch (e) {
-    res.send({ message: "Error in Fetching user" });
+    res.send({ message: "Error in Fetching user", status: 'KO' });
   }
 }
 
