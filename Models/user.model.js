@@ -5,6 +5,9 @@ const userSchema = new mongoose.Schema({
       required: true,
       max: 200,
     },
+    role: {
+      type: String,
+    },
     email: {
       type: String,
       required: true,
@@ -15,6 +18,6 @@ const userSchema = new mongoose.Schema({
       required: true,
       min: 5,
     },
-  }, { timestamps: true }
+  }, { timestamps: true },
 )
 module.exports = mongoose.model('User', userSchema)

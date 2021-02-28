@@ -38,6 +38,7 @@ async function signup(req, res, next) {
 
   const user = new User({
     name: req.body.name,
+    role: "guest",
     email: req.body.email,
     password: hashpassword,
   })
@@ -81,6 +82,7 @@ async function login(req, res, next) {
   const user = new User({
     name: emailExist.name,
     email: emailExist.email,
+    role: emailExist.role,
   })
 
   res.header('auth-token', token).json({ user, status: "OK" })
