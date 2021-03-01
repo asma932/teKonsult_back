@@ -8,7 +8,7 @@ async function createCategory(req, res, next) {
 
   const titleExist = await Category.findOne({ title: req.body.title })
   if (titleExist) {
-    res.status(400).json({ "error": 'Categorie already Exist',status:"KO" })
+    res.status(400).json({ "error": 'Categorie already Exist',status:"Failure" })
   }
 
   const category = new Category({
