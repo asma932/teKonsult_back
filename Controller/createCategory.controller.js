@@ -1,5 +1,4 @@
 const Category = require('../Models/categories.model')
-const bycrypt = require('bcryptjs')
 const jwt = require("jsonwebtoken");
 
 

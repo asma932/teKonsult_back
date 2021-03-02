@@ -74,18 +74,16 @@ async function login(req, res, next) {
     res.status(400).json({ status: 'Failure', message: "Password mismatch" })
   }
   const token = jwt.sign({ _id: emailExist.id }, 'anystring')
-  var cookie = req.cookies.token;
-  if (cookie === undefined) {
     res.cookie('token', token, { maxAge: 900000, httpOnly: true });
-  } else {
-  }
+
   const user = new User({
     name: emailExist.name,
     email: emailExist.email,
     role: emailExist.role,
   })
 
-  res.header('auth-token', token).json({ user, status: "OK" })
+  res.header('auth-token', token).json({ token, user, status: "OK" })
+
   next();
 
 }
@@ -113,7 +111,7 @@ async function changePassword(req, res) {
   const codeExist = await Code.findOne({ email: req.body.email })
   if (codeExist.code === code && codeExist.email === email) {
     const salt = await bycrypt.genSalt(10);
-    const hashpassword = await bycrypt.hash(req.body.newPassword, salt)
+    const hashpassword = await bycrypt.hash(newPassword, salt)
     var newvalues = { $set: { password: hashpassword } };
     await User.updateOne(
       { email: req.body.email },
