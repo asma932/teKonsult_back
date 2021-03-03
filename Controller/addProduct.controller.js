@@ -1,7 +1,7 @@
 const Product = require('../Models/product.model')
 var fs = require('fs');
 var path = require('path');
-
+var crypto = require('crypto');
 
 //addProduct Controller
 async function addProduct (req, res, next) {
@@ -14,12 +14,14 @@ async function addProduct (req, res, next) {
     if (titleExist) {
         res.status(400).json({ "error": 'product already Exist',status:"Failure" })
     }
-// const cleanPath=
+  var image_digest = crypto.createHash('sha256');
+  image_digest.update(fs.readFileSync(req.body.image));
+  image_digest = image_digest.digest('base64').toString();
     const product = new Product({
             title: req.body.title,
             description: req.body.description,
             image:{
-              data: fs.readFileSync(path.join(__dirname + '/uploads/images/'+ req.body.image)),
+              data: image_digest,
               contentType: 'image/png'
             },
             price:req.body.price,

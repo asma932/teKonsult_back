@@ -29,12 +29,12 @@ adminRouter.post('/uploadPhoto', upload.single('photo'), (req, res) => {
 adminRouter.post('/createCategory', createCategory.createCategory)
 adminRouter.get('/allProducts', function (req, res) {
   Product.find({}, function (err, products) {
-    var productsMap = {};
-    products.forEach(function (product) {
-      productsMap[product.reference] = product;
-    });
+    // var productsMap = {};
+    // products.forEach(function (product) {
+    //   productsMap[product.reference] = product;
+    // });
 
-    res.send(productsMap);
+    res.send({ data: products, status: "OK" });
   });
 });
 adminRouter.post('/addProduct', addProduct.addProduct)
