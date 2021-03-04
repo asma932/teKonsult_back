@@ -5,7 +5,7 @@ const auth = require('../Middleware/auth')
 const Product = require('../Models/product.model')
 var multer = require('multer');
 var path = require('path');
-
+var ObjectId = require('mongodb').ObjectID;
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -26,6 +26,22 @@ adminRouter.post('/uploadPhoto', upload.single('photo'), (req, res) => {
     res.json(e);
   }
 });
+
+
+adminRouter.get('/photo/:_id', function (req, res) {
+
+  var filename = req.params._id;
+
+  Product.findOne({ '_id': ObjectId(filename) }, (err, result) => {
+    if (err) return console.log("err****** ", err);
+
+    res.contentType('image/png');
+    console.log('my image',result)
+    res.send(result.image.image)
+
+
+  })
+})
 adminRouter.post('/createCategory', createCategory.createCategory)
 adminRouter.get('/allProducts', function (req, res) {
   Product.find({}, function (err, products) {

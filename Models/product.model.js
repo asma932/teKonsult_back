@@ -13,7 +13,7 @@ const productSchema = new mongoose.Schema({
     },
     image:
       {
-        data: Buffer,
+        image: Buffer,
         contentType: String,
       },
     price: {
