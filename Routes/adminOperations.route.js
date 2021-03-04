@@ -3,6 +3,7 @@ const createCategory = require('../Controller/createCategory.controller')
 const addProduct = require('../Controller/addProduct.controller')
 const auth = require('../Middleware/auth')
 const Product = require('../Models/product.model')
+const Category = require('../Models/categories.model')
 var multer = require('multer');
 var path = require('path');
 var ObjectId = require('mongodb').ObjectID;
@@ -36,7 +37,7 @@ adminRouter.get('/photo/:_id', function (req, res) {
     if (err) return console.log("err****** ", err);
 
     res.contentType('image/png');
-    console.log('my image',result)
+    console.log('my image', result)
     res.send(result.image.image)
 
 
@@ -45,12 +46,12 @@ adminRouter.get('/photo/:_id', function (req, res) {
 adminRouter.post('/createCategory', createCategory.createCategory)
 adminRouter.get('/allProducts', function (req, res) {
   Product.find({}, function (err, products) {
-    // var productsMap = {};
-    // products.forEach(function (product) {
-    //   productsMap[product.reference] = product;
-    // });
-
     res.send({ data: products, status: "OK" });
+  });
+});
+adminRouter.get('/allCategories', function (req, res) {
+  Category.find({}, function (err, categories) {
+    res.send({ data: categories, status: "OK" });
   });
 });
 adminRouter.post('/addProduct', addProduct.addProduct)
