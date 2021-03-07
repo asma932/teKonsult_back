@@ -16,7 +16,6 @@ async function addProduct(req, res, next) {
   var finalImg = {
     contentType: "image/png",
     image: Buffer.from(encode_image, 'base64'),
-
   };
   const product = new Product({
     title: req.body.title,

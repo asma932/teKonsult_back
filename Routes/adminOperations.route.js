@@ -1,6 +1,8 @@
 const adminRouter = require('express').Router()
 const createCategory = require('../Controller/createCategory.controller')
 const addProduct = require('../Controller/addProduct.controller')
+const updateProduct = require('../Controller/updateProduct.controller')
+
 const auth = require('../Middleware/auth')
 const Product = require('../Models/product.model')
 const Category = require('../Models/categories.model')
@@ -37,7 +39,6 @@ adminRouter.get('/photo/:_id', function (req, res) {
     if (err) return console.log("err****** ", err);
 
     res.contentType('image/png');
-    console.log('my image', result)
     res.send(result.image.image)
 
 
@@ -55,5 +56,6 @@ adminRouter.get('/allCategories', function (req, res) {
   });
 });
 adminRouter.post('/addProduct', addProduct.addProduct)
+adminRouter.post('/updateProduct', updateProduct.updateProduct)
 
 module.exports = adminRouter
