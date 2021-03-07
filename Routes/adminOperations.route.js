@@ -2,6 +2,7 @@ const adminRouter = require('express').Router()
 const createCategory = require('../Controller/createCategory.controller')
 const addProduct = require('../Controller/addProduct.controller')
 const updateProduct = require('../Controller/updateProduct.controller')
+const deleteProduct = require('../Controller/deleteProduct.controller')
 
 const auth = require('../Middleware/auth')
 const Product = require('../Models/product.model')
@@ -57,5 +58,7 @@ adminRouter.get('/allCategories', function (req, res) {
 });
 adminRouter.post('/addProduct', addProduct.addProduct)
 adminRouter.post('/updateProduct', updateProduct.updateProduct)
+adminRouter.post('/deleteProduct', deleteProduct.deleteProduct)
+
 
 module.exports = adminRouter
