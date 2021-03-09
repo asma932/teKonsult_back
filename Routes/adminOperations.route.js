@@ -21,7 +21,7 @@ var storage = multer.diskStorage({
 })
 var upload = multer({ storage: storage });
 
-adminRouter.post('/uploadPhoto', upload.single('photo'), (req, res) => {
+adminRouter.post('/uploadPhoto', auth, upload.single('photo'), (req, res) => {
   try {
     if (req.file) {
       res.json(req.file);
@@ -32,7 +32,7 @@ adminRouter.post('/uploadPhoto', upload.single('photo'), (req, res) => {
 });
 
 
-adminRouter.get('/photo/:_id', function (req, res) {
+adminRouter.get('/photo/:_id', auth, function (req, res) {
 
   var filename = req.params._id;
 
@@ -45,20 +45,20 @@ adminRouter.get('/photo/:_id', function (req, res) {
 
   })
 })
-adminRouter.post('/createCategory', createCategory.createCategory)
-adminRouter.get('/allProducts', function (req, res) {
+adminRouter.post('/createCategory', auth, createCategory.createCategory)
+adminRouter.get('/allProducts', auth, function (req, res) {
   Product.find({}, function (err, products) {
     res.send({ data: products, status: "OK" });
   });
 });
-adminRouter.get('/allCategories', function (req, res) {
+adminRouter.get('/allCategories', auth, function (req, res) {
   Category.find({}, function (err, categories) {
     res.send({ data: categories, status: "OK" });
   });
 });
-adminRouter.post('/addProduct', addProduct.addProduct)
-adminRouter.post('/updateProduct', updateProduct.updateProduct)
-adminRouter.post('/deleteProduct', deleteProduct.deleteProduct)
+adminRouter.post('/addProduct', auth, addProduct.addProduct)
+adminRouter.post('/updateProduct', auth, updateProduct.updateProduct)
+adminRouter.post('/deleteProduct', auth, deleteProduct.deleteProduct)
 
 
 module.exports = adminRouter

@@ -28,9 +28,10 @@ async function addProduct(req, res, next) {
     category: req.body.category,
   })
   try {
+    const newProduct = await product.save()
     //file removed
     fs.unlinkSync(req.body.image)
-    const newProduct = await product.save()
+
     res.status(200).json({
       newProduct
       , status: "OK",

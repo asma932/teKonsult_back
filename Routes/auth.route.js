@@ -11,14 +11,12 @@ const auth = require('../Middleware/auth')
 //User
 router.post('/signup', validateUser, signup.signup)
 router.post('/login', loginValidation, login.login)
-router.get('/user', auth, getCurrentUser.getCurrentUser)
+router.post('/user', auth, getCurrentUser.getCurrentUser)
 router.post('/forgetPassword', forgetPassword.forgetPassword)
-router.post('/changePassword', changePassword.changePassword)
+router.post('/changePassword',auth, changePassword.changePassword)
 router.get('/logout', async function (req, res) {
   try {
-    // res.clearCookie("token");
-    res.status(200).send({ message: 'Good bye :(', status: "OK" })
-    await req.user.save()
+    res.status(200).send({ message: 'Logout!', status: "OK" })
   } catch (error) {
     res.status(500).send(error)
   }
