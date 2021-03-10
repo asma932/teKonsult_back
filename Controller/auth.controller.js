@@ -3,6 +3,7 @@ const Code = require('../Models/codes.model')
 const bycrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
+var fs = require('fs');
 
 async function emailSender(code, emailExist) {
   let transporter = nodemailer.createTransport({
@@ -27,7 +28,12 @@ async function emailSender(code, emailExist) {
 
 //SignUp Controller
 async function signup(req, res, next) {
-
+  var img = fs.readFileSync(req.body.image);
+  var encode_image = img.toString('base64');
+  var finalImg = {
+    contentType: "image/png",
+    image: Buffer.from(encode_image, 'base64'),
+  };
   const salt = await bycrypt.genSalt(10);
   const hashpassword = await bycrypt.hash(req.body.password, salt)
 
@@ -41,6 +47,8 @@ async function signup(req, res, next) {
     role: "guest",
     email: req.body.email,
     password: hashpassword,
+    key:req.body.email,
+    image: finalImg,
   })
   try {
     const userSignup = await user.save()
@@ -80,6 +88,8 @@ async function login(req, res, next) {
     name: emailExist.name,
     email: emailExist.email,
     role: emailExist.role,
+    key:emailExist.key,
+    image:emailExist.image
   })
 
   res.header('auth-token', token).json({ token, user, status: "OK" })

@@ -15,7 +15,6 @@ async function updateProduct(req, res, next) {
   var newvalues = {}
   if (req.body.image !== '') {
     var img = fs.readFileSync(req.body.image);
-    console.log("***************************************", img)
     var encode_image = img.toString('base64');
     var finalImg = {
       contentType: "image/png",
@@ -28,7 +27,7 @@ async function updateProduct(req, res, next) {
         image: finalImg,
         price: req.body.price,
         quantity: req.body.quantity,
-        reference: req.body.reference,
+        product_reference: req.body.product_reference,
         promotionPrice: req.body.promotionPrice,
         category: req.body.category,
       },
@@ -40,7 +39,7 @@ async function updateProduct(req, res, next) {
         description: req.body.description,
         price: req.body.price,
         quantity: req.body.quantity,
-        reference: req.body.reference,
+        product_reference: req.body.product_reference,
         promotionPrice: req.body.promotionPrice,
         category: req.body.category,
       },

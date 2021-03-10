@@ -1,5 +1,8 @@
 const mongoose = require('mongoose')
 const productSchema = new mongoose.Schema({
+    key: {
+      type: String,
+    },
     title: {
       type: String,
       required: true,
@@ -25,8 +28,9 @@ const productSchema = new mongoose.Schema({
       max: 50,
       required: true,
     },
-    reference: {
+  product_reference: {
       type: String,
+      unique: true,
       required: true,
       max: 50,
     },

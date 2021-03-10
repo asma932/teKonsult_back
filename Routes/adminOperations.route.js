@@ -3,6 +3,13 @@ const createCategory = require('../Controller/createCategory.controller')
 const addProduct = require('../Controller/addProduct.controller')
 const updateProduct = require('../Controller/updateProduct.controller')
 const deleteProduct = require('../Controller/deleteProduct.controller')
+const addOrUpdateRateToProduct = require('../Controller/ratingPerProduct.controller')
+const getRatePerUserPerProduct = require('../Controller/ratingPerProduct.controller')
+const getRatesPerProduct = require('../Controller/ratingPerProduct.controller')
+const UpdateCommentToProduct = require('../Controller/commentsPerProduct.controller')
+const getCommentsPerProduct = require('../Controller/commentsPerProduct.controller')
+const addComment = require('../Controller/commentsPerProduct.controller')
+
 
 const auth = require('../Middleware/auth')
 const Product = require('../Models/product.model')
@@ -21,7 +28,7 @@ var storage = multer.diskStorage({
 })
 var upload = multer({ storage: storage });
 
-adminRouter.post('/uploadPhoto', auth, upload.single('photo'), (req, res) => {
+adminRouter.post('/uploadPhoto', upload.single('photo'), (req, res) => {
   try {
     if (req.file) {
       res.json(req.file);
@@ -59,6 +66,12 @@ adminRouter.get('/allCategories', auth, function (req, res) {
 adminRouter.post('/addProduct', auth, addProduct.addProduct)
 adminRouter.post('/updateProduct', auth, updateProduct.updateProduct)
 adminRouter.post('/deleteProduct', auth, deleteProduct.deleteProduct)
+adminRouter.post('/getUserRates', getRatePerUserPerProduct.getRatePerUserPerProduct)
+adminRouter.post('/getRates', getRatesPerProduct.getRatesPerProduct)
+adminRouter.post('/setRate', auth, addOrUpdateRateToProduct.addOrUpdateRateToProduct)
+adminRouter.post('/updateComment', auth, UpdateCommentToProduct.UpdateCommentToProduct)
+adminRouter.post('/getComments', auth, getCommentsPerProduct.getCommentsPerProduct)
+adminRouter.post('/addComment', auth, addComment.addComment)
 
 
 module.exports = adminRouter

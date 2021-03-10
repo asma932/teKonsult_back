@@ -5,7 +5,6 @@ module.exports = function (req, res, next) {
   if(token===undefined){
     token= req.headers.authorization;
   }
-  console.log("token: ****************** :",token)
   if (!token) return res.status(401).json({ message: "Authentication Failed", status: 'Failure' });
 
   try {
