@@ -33,12 +33,12 @@ async function addProduct(req, res, next) {
     key: req.body.key,
   })
   try {
-    const newProduct = await product.save()
+    await product.save()
     //file removed
     // fs.unlinkSync(req.body.image)
 
     res.status(200).json({
-      newProduct
+      message:'Product Added!'
       , status: "OK",
     })
 
