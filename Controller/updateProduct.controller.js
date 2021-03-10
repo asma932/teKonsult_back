@@ -5,11 +5,9 @@ var crypto = require('crypto');
 
 //updateProduct Controller
 async function updateProduct(req, res, next) {
+  var product_key=req.body.product_key
 
-  const titleExist = await Product.findOne({ title: req.body.title })
-  if (titleExist) {
-    res.status(400).json({ message: 'Product already Exist', status: "Failure" })
-  }
+
 
 
   var newvalues = {}
@@ -49,9 +47,13 @@ async function updateProduct(req, res, next) {
   try {
 
     await Product.updateOne(
-      { _id: req.body._id },
+      { product_key },
       newvalues,
     );
+
+
+
+
     res.status(200).json({
       newvalues
       , status: "OK",

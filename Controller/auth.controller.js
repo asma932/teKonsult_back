@@ -47,8 +47,8 @@ async function signup(req, res, next) {
     role: "guest",
     email: req.body.email,
     password: hashpassword,
-    key:req.body.email,
     image: finalImg,
+    $inc: { user_key: 1 },
   })
   try {
     const userSignup = await user.save()
@@ -88,7 +88,7 @@ async function login(req, res, next) {
     name: emailExist.name,
     email: emailExist.email,
     role: emailExist.role,
-    key:emailExist.key,
+    user_key:emailExist.user_key,
     image:emailExist.image
   })
 

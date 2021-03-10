@@ -6,10 +6,7 @@ var crypto = require('crypto');
 //addProduct Controller
 async function addProduct(req, res, next) {
 
-  // const titleExist = await Product.findOne({ title: req.body.title })
-  // if (titleExist) {
-  //   res.status(400).json({ message: 'Product already Exist', status: "Failure" })
-  // }
+
   const referenceExist = await Product.findOne({ product_reference: req.body.product_reference })
   if (referenceExist) {
     res.status(400).json({ message: 'Reference already Exist', status: "Failure" })

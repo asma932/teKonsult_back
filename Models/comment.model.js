@@ -1,22 +1,23 @@
 const mongoose = require('mongoose')
-const categoriesSchema = new mongoose.Schema({
-    key: {
-      type: String,
+const AutoIncrement = require('mongoose-sequence')(mongoose)
+const commentSchema = new mongoose.Schema({
+  comment_key: {
+      type: Number,
     },
-    product_reference: {
-      type: String,
-      required: true,
-      max: 50,
+    product_key: {
+      type: Number,
+      // required: true,
+      // max: 50,
     },
     image:
       {
         image: Buffer,
         contentType: String,
       },
-    user_id: {
-      type: String,
-      required: true,
-      max: 200,
+    user_key: {
+      type: Number,
+      // required: true,
+      // max: 200,
     },
     comment: {
       type: String,
@@ -30,4 +31,5 @@ const categoriesSchema = new mongoose.Schema({
     },
   }, { timestamps: true },
 )
-module.exports = mongoose.model('Comment', categoriesSchema)
+commentSchema.plugin(AutoIncrement,{inc_field:'comment_key'})
+module.exports = mongoose.model('Comment', commentSchema)

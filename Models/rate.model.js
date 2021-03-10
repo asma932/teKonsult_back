@@ -1,21 +1,24 @@
 const mongoose = require('mongoose')
-const categoriesSchema = new mongoose.Schema({
-    key: {
-      type: String,
+const AutoIncrement = require('mongoose-sequence')(mongoose)
+const rateSchema = new mongoose.Schema({
+    rate_key: {
+      type: Number,
     },
-  product_reference: {
-      type: String,
-      required: true,
+    product_key: {
+      type: Number,
+      // required: true,
       max: 50,
     },
-    user_id: {
-      type: String,
-      required: true,
-      max: 200,
+    user_key: {
+      type: Number,
+      // required: true,
+      // max: 200,
     },
     rate_value: {
       type: Number,
     },
   }, { timestamps: true },
 )
-module.exports = mongoose.model('Rate', categoriesSchema)
+rateSchema.plugin(AutoIncrement, { inc_field: 'rate_key' })
+
+module.exports = mongoose.model('Rate', rateSchema)
