@@ -1,12 +1,14 @@
 const mongoose = require('mongoose')
+const AutoIncrement = require('mongoose-sequence')(mongoose)
+
 const productSchema = new mongoose.Schema({
-    key: {
-      type: String,
+    product_key: {
+      type: Number,
     },
     title: {
       type: String,
       required: true,
-      max: 50,
+      max: 200,
     },
     description: {
       type: String,
@@ -28,16 +30,15 @@ const productSchema = new mongoose.Schema({
       max: 50,
       required: true,
     },
-  product_reference: {
+    product_reference: {
       type: String,
-      unique: true,
       required: true,
       max: 50,
     },
     promotionPrice: {
       type: String,
       max: 50,
-      required: true,
+      // required: true,
     },
     category: {
       type: String,
@@ -48,4 +49,6 @@ const productSchema = new mongoose.Schema({
 
   }, { timestamps: true },
 )
+productSchema.plugin(AutoIncrement, { inc_field: 'product_key' })
+
 module.exports = mongoose.model('Product', productSchema)

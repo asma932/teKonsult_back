@@ -6,14 +6,14 @@ var crypto = require('crypto');
 //addProduct Controller
 async function addProduct(req, res, next) {
 
-  const titleExist = await Product.findOne({ title: req.body.title })
-  if (titleExist) {
-    res.status(400).json({ message: 'Product already Exist', status: "Failure" })
-  }
-  // const referenceExist = await Product.findOne({ product_reference: req.body.product_reference })
-  // if (referenceExist) {
-  //   res.status(400).json({ message: 'Reference already Exist', status: "Failure" })
+  // const titleExist = await Product.findOne({ title: req.body.title })
+  // if (titleExist) {
+  //   res.status(400).json({ message: 'Product already Exist', status: "Failure" })
   // }
+  const referenceExist = await Product.findOne({ product_reference: req.body.product_reference })
+  if (referenceExist) {
+    res.status(400).json({ message: 'Reference already Exist', status: "Failure" })
+  }
   var img = fs.readFileSync(req.body.image);
   var encode_image = img.toString('base64');
   var finalImg = {
@@ -30,7 +30,7 @@ async function addProduct(req, res, next) {
     product_reference: req.body.product_reference,
     promotionPrice: req.body.promotionPrice,
     category: req.body.category,
-    key: req.body.key,
+    $inc: { product_key: 1 },
   })
   try {
     await product.save()
