@@ -9,7 +9,7 @@ const getRatesPerProduct = require('../Controller/ratingPerProduct.controller')
 const UpdateCommentToProduct = require('../Controller/commentsPerProduct.controller')
 const getCommentsPerProduct = require('../Controller/commentsPerProduct.controller')
 const addComment = require('../Controller/commentsPerProduct.controller')
-
+const addUsers = require('../Controller/addUsers.controller')
 
 const auth = require('../Middleware/auth')
 const Product = require('../Models/product.model')
@@ -72,8 +72,13 @@ adminRouter.post('/setRate', auth, addOrUpdateRateToProduct.addOrUpdateRateToPro
 adminRouter.post('/updateComment', auth, UpdateCommentToProduct.UpdateCommentToProduct)
 adminRouter.post('/getComments', auth, getCommentsPerProduct.getCommentsPerProduct)
 adminRouter.post('/addComment', auth, addComment.addComment)
-adminRouter.post('/editCategory', createCategory.updateCategory)
-adminRouter.post('/deleteCategory', createCategory.deleteCategory)
+adminRouter.post('/editCategory',auth, createCategory.updateCategory)
+adminRouter.post('/deleteCategory',auth, createCategory.deleteCategory)
+adminRouter.post('/editUser',auth, addUsers.editUser)
+adminRouter.post('/deleteUser',auth, addUsers.deleteUser)
+adminRouter.get('/getUsers',auth,addUsers.getUsers)
+
+
 
 
 module.exports = adminRouter

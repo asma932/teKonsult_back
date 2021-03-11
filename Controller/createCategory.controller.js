@@ -37,8 +37,8 @@ async function updateCategory(req, res) {
       const filter = { key };
       const update = { title, description };
       await Category.findOneAndUpdate(
-        filter,
-        update,
+          filter,
+          update,
       );
       res.send({ message: 'Category edited!', category, status: "OK" });
     });
