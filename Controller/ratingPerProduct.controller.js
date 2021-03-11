@@ -42,6 +42,7 @@ async function getRatesPerProduct(req, res) {
           'normal': sommeRates3,
           'good': sommeRates4,
           'wonderful': sommeRates5,
+          rates,
         }, status: "OK",
       });
     });
@@ -88,10 +89,13 @@ async function addOrUpdateRateToProduct(req, res) {
       if (result.length === 0) {
         await rate.save()
       } else {
-        const filter = { user_key: user_key };
+
+
+
+        const filter = { product_key,user_key };
         const update = { rate_value };
 
-        await Rate.findOneAndUpdate(
+        await Rate.updateOne(
           filter,
           update,
         );

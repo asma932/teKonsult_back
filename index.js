@@ -33,7 +33,7 @@ app.use('/account/api', routes)
 mongoose.connect('mongodb+srv://asma-22:5DpGiPBX91h3acsM@cluster0.kjtud.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useFindAndModify: false
+  // useFindAndModify: false
 });
 mongoose.connection.once('open', function () {
   console.log('Database connected Successfully');
