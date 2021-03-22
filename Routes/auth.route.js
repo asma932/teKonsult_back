@@ -10,6 +10,8 @@ const auth = require('../Middleware/auth')
 
 //User
 router.post('/signup', validateUser, signup.signup)
+
+
 router.post('/login', loginValidation, login.login)
 router.post('/user', auth, getCurrentUser.getCurrentUser)
 router.post('/forgetPassword', forgetPassword.forgetPassword)

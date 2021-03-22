@@ -9,7 +9,7 @@ async function updateProduct(req, res, next) {
 
 
 
-
+console.log("*************** image",req.body.image)
   var newvalues = {}
   if (req.body.image !== '') {
     var img = fs.readFileSync(req.body.image);

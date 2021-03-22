@@ -7,7 +7,7 @@ const rateSchema = new mongoose.Schema({
     product_key: {
       type: Number,
       // required: true,
-      max: 50,
+      // max: 50,
     },
     user_key: {
       type: Number,

@@ -24,8 +24,6 @@ async function getCommentsPerProduct(req, res) {
               image = user[0].image || ''
               username = user[0].name || ''
             }
-            console.log("********************", username)
-            console.log("********************", image)
             var mycomment = new Comment({
               product_key: item.product_key,
               user_key: item.user_key,
