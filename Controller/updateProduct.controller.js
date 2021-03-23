@@ -9,7 +9,6 @@ async function updateProduct(req, res, next) {
 
 
 
-console.log("*************** image",req.body.image)
   var newvalues = {}
   if (req.body.image !== '') {
     var img = fs.readFileSync(req.body.image);
@@ -23,7 +22,7 @@ console.log("*************** image",req.body.image)
         title: req.body.title,
         description: req.body.description,
         image: finalImg,
-        price: req.body.price,
+        price: req.body.price.replace(",","."),
         quantity: req.body.quantity,
         product_reference: req.body.product_reference,
         promotionPrice: req.body.promotionPrice,
@@ -35,7 +34,7 @@ console.log("*************** image",req.body.image)
       $set: {
         title: req.body.title,
         description: req.body.description,
-        price: req.body.price,
+        price: req.body.price.replace(",","."),
         quantity: req.body.quantity,
         product_reference: req.body.product_reference,
         promotionPrice: req.body.promotionPrice,
