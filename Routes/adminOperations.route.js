@@ -53,12 +53,12 @@ adminRouter.get('/photo/:_id', auth, function (req, res) {
   })
 })
 adminRouter.post('/createCategory',auth, createCategory.createCategory)
-adminRouter.get('/allProducts', auth, function (req, res) {
+adminRouter.get('/allProducts', function (req, res) {
   Product.find({}, function (err, products) {
     res.send({ data: products, status: "OK" });
   });
 });
-adminRouter.get('/allCategories', auth, function (req, res) {
+adminRouter.get('/allCategories', function (req, res) {
   Category.find({}, function (err, categories) {
     res.send({ data: categories, status: "OK" });
   });
@@ -70,7 +70,7 @@ adminRouter.post('/getUserRates', getRatePerUserPerProduct.getRatePerUserPerProd
 adminRouter.post('/getRates', getRatesPerProduct.getRatesPerProduct)
 adminRouter.post('/setRate', auth, addOrUpdateRateToProduct.addOrUpdateRateToProduct)
 adminRouter.post('/updateComment', auth, UpdateCommentToProduct.UpdateCommentToProduct)
-adminRouter.post('/getComments', auth, getCommentsPerProduct.getCommentsPerProduct)
+adminRouter.post('/getComments', getCommentsPerProduct.getCommentsPerProduct)
 adminRouter.post('/addComment', auth, addComment.addComment)
 adminRouter.post('/editCategory',auth, createCategory.updateCategory)
 adminRouter.post('/deleteCategory',auth, createCategory.deleteCategory)
