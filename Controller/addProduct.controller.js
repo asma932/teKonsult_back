@@ -22,7 +22,7 @@ async function addProduct(req, res, next) {
     title: req.body.title,
     description: req.body.description,
     image: finalImg,
-    price: req.body.price,
+    price: req.body.price.replace(",","."),
     quantity: req.body.quantity,
     product_reference: req.body.product_reference,
     promotionPrice: req.body.promotionPrice,

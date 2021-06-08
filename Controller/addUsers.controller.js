@@ -1,7 +1,10 @@
 const jwt = require("jsonwebtoken");
 
 const User = require('../Models/user.model');
-
+const bycrypt = require('bcryptjs');
+var fs = require('fs');
+var path = require('path');
+var crypto = require('crypto');
 
 async function getUsers(req, res) {
     try {
@@ -18,36 +21,58 @@ async function getUsers(req, res) {
 }
 
 async function editUser(req, res) {
+    var newvalues = {}
+
     var user_key = req.body.user_key;
     var name = req.body.name;
     var role = req.body.role;
-    var image = req.body.image;
+    // var image = req.body.image;
     var email = req.body.email;
-    var password = req.body.password;
+    const salt = await bycrypt.genSalt(10);
+    const password = await bycrypt.hash(req.body.password, salt)
 
-    const users = new User({
-        user_key,
-        name,
-        role,
-        image,
-        email,
-        password,
-    });
+    if (req.body.image !== '') {
+        var img = fs.readFileSync(req.body.image);
+        var encode_image = img.toString('base64');
+        var finalImg = {
+            contentType: "image/png",
+            image: Buffer.from(encode_image, 'base64'),
+        };
+        newvalues = {
+            $set: {
+                image: finalImg,
+                user_key,
+                name,
+                role,
+                email,
+                password,
+            },
+        };
+    } else {
+        newvalues = {
+            $set: {
+                user_key,
+                name,
+                role,
+                email,
+                password,
+            },
+        };
+    }
 
     try {
-        User.find({}, async function (err, data) {
-            const filter = {user_key};
-            const update = {name, role, image, email, password};
-            await User.findOneAndUpdate(
-                filter,
-                update,
-            );
-            res.send({message: 'Users edited!', users, status: "OK"});
-        });
+
+        await User.updateOne(
+          { user_key },
+          newvalues,
+        );
+
+            res.send({message: 'Users edited!', users:newvalues, status: "OK"});
 
     } catch (e) {
         res.send({message: e, status: "Failure"});
-    }}
+    }
+}
     async function deleteUser (req, res) {
         await User.deleteOne({'user_key': req.body.user_key}).then(function () {
             res.status(200).json({status: "OK", message: 'User deleted!'})
