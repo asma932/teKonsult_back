@@ -9,6 +9,7 @@ const getRatesPerProduct = require('../Controller/ratingPerProduct.controller')
 const UpdateCommentToProduct = require('../Controller/commentsPerProduct.controller')
 const getCommentsPerProduct = require('../Controller/commentsPerProduct.controller')
 const addComment = require('../Controller/commentsPerProduct.controller')
+const publishRequest = require('../Controller/createRequest.controller')
 const addUsers = require('../Controller/addUsers.controller')
 
 const auth = require('../Middleware/auth')
@@ -76,6 +77,8 @@ adminRouter.post('/editCategory',auth, createCategory.updateCategory)
 adminRouter.post('/deleteCategory',auth, createCategory.deleteCategory)
 adminRouter.post('/editUser',auth, addUsers.editUser)
 adminRouter.post('/deleteUser',auth, addUsers.deleteUser)
+adminRouter.post('/createPublishRequest',auth, publishRequest.createRequest)
+adminRouter.get('/getPublishRequest',auth, publishRequest.getRequests)
 adminRouter.get('/getUsers',auth,addUsers.getUsers)
 
 
