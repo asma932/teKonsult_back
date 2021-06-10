@@ -10,7 +10,9 @@ const UpdateCommentToProduct = require('../Controller/commentsPerProduct.control
 const getCommentsPerProduct = require('../Controller/commentsPerProduct.controller')
 const addComment = require('../Controller/commentsPerProduct.controller')
 const publishRequest = require('../Controller/createRequest.controller')
+const updateRequestStatus = require('../Controller/updateRequestStatus.controller')
 const addUsers = require('../Controller/addUsers.controller')
+const getPublishPermission = require('../Controller/publishPermission.controller')
 
 const auth = require('../Middleware/auth')
 const Product = require('../Models/product.model')
@@ -59,6 +61,12 @@ adminRouter.get('/allProducts', function (req, res) {
     res.send({ data: products, status: "OK" });
   });
 });
+adminRouter.post('/allProductsPerAdmin', function (req, res) {
+  Product.find({user_key: req.body.user_key}, function (err, products) {
+    res.send({ data: products, status: "OK" });
+  });
+});
+
 adminRouter.get('/allCategories', function (req, res) {
   Category.find({}, function (err, categories) {
     res.send({ data: categories, status: "OK" });
@@ -77,9 +85,12 @@ adminRouter.post('/editCategory',auth, createCategory.updateCategory)
 adminRouter.post('/deleteCategory',auth, createCategory.deleteCategory)
 adminRouter.post('/editUser',auth, addUsers.editUser)
 adminRouter.post('/deleteUser',auth, addUsers.deleteUser)
+
+adminRouter.post('/updateRequestStatus',auth, updateRequestStatus.updateRequestStatus)
 adminRouter.post('/createPublishRequest',auth, publishRequest.createRequest)
 adminRouter.get('/getPublishRequest',auth, publishRequest.getRequests)
 adminRouter.get('/getUsers',auth,addUsers.getUsers)
+adminRouter.post('/getPublishPermission',auth,getPublishPermission.getPublishPermission)
 
 
 

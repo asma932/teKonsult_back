@@ -30,7 +30,7 @@ async function getUserOrders(req, res) {
         res.send({ error: err, message: "Error in Fetching orders", status: 'Failure' });
 
       }
-      console.log(user);
+
       res.json({ status: "OK", data: myOrders });
 
     });
@@ -74,8 +74,7 @@ async function addOrder(req, res, next) {
     products,
     $inc: { order_key: 1 },
   });
-  console.log("***************** total : ", total);
-  console.log("***************** quantity : ", quantity)
+
 
   try {
     await order.save()

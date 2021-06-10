@@ -14,7 +14,7 @@ async function createRequest(req, res, next) {
         if (result.length > 0) {
           res.send({ message: 'request exists!', status: "Failure" });
         }else {
-          console.log(result1)
+
           const request = new PublishRequest({
             status: "PR",
             name: result1[0].name,
